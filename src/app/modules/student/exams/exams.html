@@ -1,0 +1,57 @@
+<div *ngIf="!loading; else loadingTpl">
+
+  <h1 class="page-title">My Exams</h1>
+
+  <div class="exam-grid">
+
+    <div class="exam-card" *ngFor="let exam of exams">
+
+      <h3>{{ exam.examName }}</h3>
+
+      <p class="meta">
+        Duration: {{ exam.duration }} mins
+      </p>
+
+      <p class="meta">
+        Total Marks: {{ exam.totalMarks }}
+      </p>
+
+      <span
+        class="status"
+        [class.completed]="exam.attempted"
+        [class.pending]="!exam.attempted">
+
+        {{ exam.attempted ? 'Completed' : 'Not Taken' }}
+      </span>
+
+      <!-- ACTION BUTTON -->
+      <button
+        *ngIf="!exam.attempted"
+        class="btn primary"
+        (click)="takeTest(exam.id)">
+        Take Test
+      </button>
+
+      <button
+        *ngIf="exam.attempted"
+        class="btn secondary"
+        (click)="viewResult(exam.id)">
+        View Result
+      </button>
+
+      <!-- RESULT INFO -->
+      <div *ngIf="exam.attempted" class="result-info">
+        <p><strong>Score:</strong> {{ exam.score }}</p>
+        <p><strong>Status:</strong> {{ exam.status }}</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- LOADING -->
+<ng-template #loadingTpl>
+  <p class="loading">Loading exams...</p>
+</ng-template>

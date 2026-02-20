@@ -1,0 +1,66 @@
+<div *ngIf="!loading" class="exam-container">
+
+  <!-- HEADER -->
+  <header class="exam-header">
+    <div class="title">{{ exam.examName }}</div>
+    <div class="timer">⏱ {{ timeLeft }}</div>
+  </header>
+
+  <div class="exam-main">
+
+    <!-- LEFT: QUESTIONS -->
+    <div class="question-section">
+
+      <div class="question-card">
+        <h3>Q{{ currentIndex + 1 }}. {{ currentQuestion?.question }}</h3>
+
+        <label *ngFor="let opt of ['A','B','C','D']"
+               class="option"
+               [class.selected]="currentQuestion?.selected === opt">
+
+          <input type="radio"
+                 [checked]="currentQuestion?.selected === opt"
+                 (change)="saveAnswer(currentQuestion, opt)" />
+
+          <span>{{ currentQuestion['option' + opt] }}</span>
+        </label>
+      </div>
+
+      <!-- Navigation Grid -->
+      <div class="question-nav">
+        <button *ngFor="let q of questions; let i = index"
+                (click)="goToQuestion(i)"
+                [class.active]="i === currentIndex"
+                [class.answered]="q.selected">
+          {{ i + 1 }}
+        </button>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: PROCTOR -->
+    <aside class="proctor-section">
+
+      <video #video autoplay muted></video>
+
+      <div class="status">
+        <p>Monitoring Active</p>
+        <p>Violations: {{ warnings.length }} / {{ violationLimit }}</p>
+      </div>
+
+      <div class="warnings">
+        <p *ngFor="let w of warnings">⚠ {{ w }}</p>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="exam-footer">
+    <button (click)="prev()" [disabled]="currentIndex === 0">Previous</button>
+    <button (click)="next()" [disabled]="currentIndex === questions.length - 1">Next</button>
+    <button class="submit" (click)="submitExam()">Submit Exam</button>
+  </footer>
+
+</div>

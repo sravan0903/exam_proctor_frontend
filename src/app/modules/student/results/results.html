@@ -1,0 +1,52 @@
+<div *ngIf="!loading; else loadingTpl">
+
+  <h1 class="page-title">My Results</h1>
+
+  <!-- SEARCH -->
+  <input
+    type="text"
+    class="search-box"
+    placeholder="Search by exam or status..."
+    [(ngModel)]="searchText"
+    (input)="filterResults()" />
+
+  <!-- RESULTS TABLE -->
+  <div class="results-list">
+
+    <div class="result-card" *ngFor="let r of filteredResults">
+
+      <div class="result-header">
+        <h3>{{ r.examName }}</h3>
+        <span
+          class="status"
+          [class.auto]="r.status === 'AUTO_SUBMITTED'">
+          {{ r.status }}
+        </span>
+      </div>
+
+      <p class="meta">
+        Score: <strong>{{ r.score }}</strong> / {{ r.totalMarks }}
+      </p>
+
+      <!-- CHART -->
+      <div class="progress-bar">
+        <div
+          class="progress"
+          [style.width.%]="getPercentage(r.score, r.totalMarks)">
+        </div>
+      </div>
+
+      <p class="percentage">
+        {{ getPercentage(r.score, r.totalMarks) }}%
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- LOADING -->
+<ng-template #loadingTpl>
+  <p class="loading">Loading results...</p>
+</ng-template>

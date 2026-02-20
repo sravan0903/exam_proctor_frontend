@@ -1,0 +1,107 @@
+<div class="users-page">
+
+  <!-- HEADER -->
+  <div class="users-header">
+    <div>
+      <h1>Users</h1>
+      <p class="subtitle">Manage students, examiners and admins</p>
+    </div>
+    <button class="primary-btn" (click)="openModal()">+ Add User</button>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Search users by name or email..."
+      [(ngModel)]="searchText"
+      (input)="filterUsers()"
+    />
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-card">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Branch</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let user of filteredUsers">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <span class="role">{{ user.role }}</span>
+          </td>
+          <td>{{ user.branch || '-' }}</td>
+          <td>
+            <span
+              class="status"
+              [class.active]="user.active"
+              [class.blocked]="!user.active">
+              {{ user.active ? 'Active' : 'Blocked' }}
+            </span>
+          </td>
+          <td>
+            <button class="action-btn"
+              (click)="toggleStatus(user)">
+              {{ user.active ? 'Block' : 'Unblock' }}
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredUsers.length === 0">
+          <td colspan="6" class="empty">
+            No users found
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal">
+
+    <h2>Create User</h2>
+
+    <div class="form-grid">
+      <input placeholder="Name" [(ngModel)]="newUser.name" />
+      <input placeholder="Father Name" [(ngModel)]="newUser.fatherName" />
+
+      <input placeholder="Email" [(ngModel)]="newUser.email" />
+      <input placeholder="Password" type="password"
+             [(ngModel)]="newUser.password" />
+
+      <select [(ngModel)]="newUser.role">
+        <option value="" disabled>Select Role</option>
+        <option value="STUDENT">Student</option>
+        <option value="EXAMINER">Examiner</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+
+      <select [(ngModel)]="newUser.department">
+        <option value="" disabled>Select Department</option>
+        <option *ngFor="let d of departments" [value]="d">
+          {{ d }}
+        </option>
+      </select>
+
+      <input placeholder="College" [(ngModel)]="newUser.collegeName" />
+      <input placeholder="Phone" [(ngModel)]="newUser.phone" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="primary-btn" (click)="createUser()">Create</button>
+      <button class="secondary-btn" (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>

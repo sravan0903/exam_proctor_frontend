@@ -1,0 +1,48 @@
+<div class="student-layout" *ngIf="!loading; else loadingTpl">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <h2 class="logo">ProctorAI</h2>
+    </div>
+
+    <div class="header-right">
+      <div class="student-info">
+        <span class="name">{{ student.name }}</span>
+        <span class="branch">{{ student.branch }}</span>
+      </div>
+
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- NAVIGATION (HORIZONTAL) -->
+  <nav class="nav">
+    <a routerLink="dashboard" routerLinkActive="active">
+      Dashboard
+    </a>
+
+    <a routerLink="exams" routerLinkActive="active">
+      Exams
+    </a>
+
+    <a routerLink="results" routerLinkActive="active">
+      Results
+    </a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
+
+<!-- LOADING -->
+<ng-template #loadingTpl>
+  <div class="loading-screen">
+    Loading student profile...
+  </div>
+</ng-template>

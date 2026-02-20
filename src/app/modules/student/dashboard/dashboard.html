@@ -1,0 +1,41 @@
+<div *ngIf="!loading; else loadingTpl">
+
+  <h1 class="page-title">
+    Welcome, {{ student?.name }}
+  </h1>
+
+  <!-- PROFILE + STATS -->
+  <div class="dashboard-grid">
+
+    <!-- PROFILE CARD -->
+    <div class="card profile-card">
+      <h3>Profile</h3>
+      <p><strong>Email:</strong> {{ student?.email }}</p>
+      <p><strong>Branch:</strong> {{ student?.branch }}</p>
+      <p><strong>Role:</strong> {{ student?.role }}</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="card">
+      <h3>Total Exams</h3>
+      <p class="stat">{{ totalExams }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Pending Exams</h3>
+      <p class="stat pending">{{ pendingExams }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Completed Exams</h3>
+      <p class="stat completed">{{ completedExams }}</p>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- LOADING -->
+<ng-template #loadingTpl>
+  <p class="loading">Loading dashboard...</p>
+</ng-template>

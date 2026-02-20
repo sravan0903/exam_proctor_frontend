@@ -1,0 +1,66 @@
+<div class="page">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <h2>📘 Exam Instructions</h2>
+
+    <ul class="rules">
+      <li>⏱️ Exam is time-bound</li>
+      <li>🚫 Do not switch tabs or minimize browser</li>
+      <li>📷 Camera must remain ON throughout the exam</li>
+      <li>📋 Copy / Paste actions are disabled</li>
+      <li>⚠️ Violations may auto-submit your exam</li>
+    </ul>
+
+    <button
+      class="btn secondary"
+      (click)="allowCamera()"
+      [disabled]="cameraGranted || checkingCamera">
+      {{ cameraGranted ? 'Camera Enabled' : 'Allow Camera Access' }}
+    </button>
+
+    <label class="declaration">
+      <input type="checkbox" [(ngModel)]="declarationAccepted" />
+      I have read and agree to follow all exam rules
+    </label>
+
+    <button
+      class="btn primary"
+      (click)="startExam()"
+      [disabled]="!declarationAccepted || !cameraGranted || !faceRegistered">
+      🚀 Start Exam
+    </button>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <h3>🎥 Camera Verification</h3>
+
+    <div class="camera-box">
+      <video
+        #video
+        autoplay
+        playsinline
+        [class.hidden]="!cameraGranted">
+      </video>
+
+      <p class="info-text" *ngIf="!cameraGranted">
+        Please allow camera access to preview and register your face.
+      </p>
+
+      <button
+        class="btn secondary"
+        (click)="registerFace()"
+        [disabled]="!cameraGranted || registeringFace || faceRegistered">
+        {{ faceRegistered ? 'Face Registered' : 'Capture & Register Face' }}
+      </button>
+
+      <p class="success" *ngIf="faceRegistered">
+        ✅ Face verified successfully
+      </p>
+    </div>
+
+    <canvas #canvas hidden></canvas>
+  </div>
+
+</div>

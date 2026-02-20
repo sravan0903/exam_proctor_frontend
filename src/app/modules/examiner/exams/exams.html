@@ -1,0 +1,142 @@
+<div class="exams-page" *ngIf="!loading">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>My Exams</h1>
+      <p class="subtitle">Manage and configure your exams</p>
+    </div>
+    <button class="btn primary" (click)="openCreateModal()">
+      + Create Exam
+    </button>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" *ngIf="exams.length === 0">
+    <p>No exams created yet</p>
+  </div>
+
+  <!-- EXAMS GRID -->
+  <div class="exam-grid">
+    <div class="exam-card" *ngFor="let exam of exams">
+
+      <!-- CARD HEADER -->
+      <div class="exam-header">
+        <div>
+          <h3>{{ exam.examName }}</h3>
+          <span class="badge">{{ exam.branch }}</span>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="exam-stats">
+        <div class="stat">
+          <span>Duration</span>
+          <strong>{{ exam.duration }} mins</strong>
+        </div>
+
+        <div class="stat">
+          <span>Total Marks</span>
+          <strong>{{ exam.totalMarks || 100 }}</strong>
+        </div>
+      </div>
+
+      <!-- EDITABLE VIOLATION LIMIT -->
+      <div class="edit-section">
+        <label>Violation Limit</label>
+        <div class="inline-input">
+          <input type="number"
+                 [(ngModel)]="exam.violationLimit">
+          <button class="btn outline small"
+                  (click)="updateViolations(exam)">
+            Update
+          </button>
+        </div>
+      </div>
+
+      <!-- EDITABLE DEADLINE -->
+      <div class="edit-section">
+        <label>Deadline</label>
+        <div class="inline-input">
+          <input type="datetime-local"
+                 [(ngModel)]="exam.deadline">
+          <button class="btn outline small"
+                  (click)="updateDeadline(exam)">
+            Update
+          </button>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="exam-actions">
+        <button class="btn primary"
+                (click)="goToQuestions(exam.id)">
+          Manage Questions
+        </button>
+
+        <button class="btn danger"
+                (click)="deleteExam(exam)">
+          Delete
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CREATE EXAM MODAL -->
+<div class="modal-backdrop" *ngIf="showCreateModal">
+  <div class="modal">
+
+    <h2>Create New Exam</h2>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Exam Name</label>
+        <input [(ngModel)]="examForm.examName">
+      </div>
+
+      <div class="form-group">
+        <label>Branch</label>
+        <select [(ngModel)]="examForm.branch">
+          <option value="">Select Branch</option>
+          <option *ngFor="let b of branches" [value]="b">{{ b }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Duration (mins)</label>
+        <input type="number" [(ngModel)]="examForm.duration">
+      </div>
+
+      <div class="form-group">
+        <label>Total Marks</label>
+        <input type="number" [(ngModel)]="examForm.totalMarks">
+      </div>
+
+      <div class="form-group">
+        <label>Violation Limit</label>
+        <input type="number" [(ngModel)]="examForm.violationLimit">
+      </div>
+
+      <div class="form-group full">
+        <label>Deadline</label>
+        <input type="datetime-local" [(ngModel)]="examForm.deadline">
+      </div>
+
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn outline"
+              (click)="closeCreateModal()">
+        Cancel
+      </button>
+      <button class="btn primary"
+              (click)="createExam()">
+        Create Exam
+      </button>
+    </div>
+
+  </div>
+</div>

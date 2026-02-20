@@ -1,0 +1,53 @@
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #0f172a;
+}
+
+/* GRID */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.card h3 {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+/* PROFILE CARD */
+.profile-card p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+/* STATS */
+.stat {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.stat.pending {
+  color: #f59e0b;
+}
+
+.stat.completed {
+  color: #16a34a;
+}
+
+/* LOADING */
+.loading {
+  font-size: 16px;
+  color: #64748b;
+}

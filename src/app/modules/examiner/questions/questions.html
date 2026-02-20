@@ -1,0 +1,123 @@
+<div class="questions-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Question Builder</h1>
+      <p>Create and manage questions for this exam</p>
+    </div>
+  </div>
+
+  <div class="builder-layout">
+
+    <!-- LEFT PANEL -->
+    <div class="form-card">
+
+      <h3>Create New Question</h3>
+
+      <textarea
+        placeholder="Enter your question here..."
+        [(ngModel)]="questionForm.question">
+      </textarea>
+
+      <div class="options-grid">
+        <input placeholder="Option A"
+               [(ngModel)]="questionForm.optionA" />
+
+        <input placeholder="Option B"
+               [(ngModel)]="questionForm.optionB" />
+
+        <input placeholder="Option C"
+               [(ngModel)]="questionForm.optionC" />
+
+        <input placeholder="Option D"
+               [(ngModel)]="questionForm.optionD" />
+      </div>
+
+      <div class="correct-answer">
+        <label>Correct Answer</label>
+        <select [(ngModel)]="questionForm.correctAnswer">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+        </select>
+      </div>
+
+      <!-- ADD QUESTION BUTTON -->
+      <button class="btn primary full"
+              (click)="addQuestion()"
+              [disabled]="!isFormValid()">
+        + Add Question
+      </button>
+
+      <hr>
+
+      <!-- BULK UPLOAD -->
+      <div class="bulk-upload">
+        <h4>Bulk Upload (CSV)</h4>
+
+        <input type="file"
+               accept=".csv"
+               (change)="onFileSelected($event)">
+
+        <button class="btn upload-btn"
+                *ngIf="selectedFile"
+                (click)="uploadQuestions()">
+          Upload Questions
+        </button>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="list-card">
+
+      <div class="list-header">
+        <h3>Questions</h3>
+        <span class="count">{{ questions.length }}</span>
+      </div>
+
+      <div *ngIf="loading" class="loading">
+        Loading questions...
+      </div>
+
+      <div *ngIf="!loading && questions.length === 0"
+           class="empty">
+        No questions added yet
+      </div>
+
+      <div class="question-card"
+           *ngFor="let q of questions; let i = index">
+
+        <div class="question-header">
+          <strong>Q{{ i + 1 }}</strong>
+
+          <button class="delete-btn"
+                  (click)="deleteQuestion(q.id)">
+            Delete
+          </button>
+        </div>
+
+        <p class="question-text">{{ q.questionText }}</p>
+
+        <ul class="options">
+          <li [class.correct]="q.correctAnswer === 'A'">
+            A. {{ q.optionA }}
+          </li>
+          <li [class.correct]="q.correctAnswer === 'B'">
+            B. {{ q.optionB }}
+          </li>
+          <li [class.correct]="q.correctAnswer === 'C'">
+            C. {{ q.optionC }}
+          </li>
+          <li [class.correct]="q.correctAnswer === 'D'">
+            D. {{ q.optionD }}
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

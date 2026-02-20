@@ -1,0 +1,138 @@
+<!-- ================= HERO SECTION ================= -->
+<div class="hero-container">
+  <!-- Left Image -->
+  <div class="hero-image">
+    <img
+      src="assets/exam-proctor.jpg"
+      alt="Student taking online exam"
+    />
+  </div>
+
+  <!-- Right Login -->
+  <div class="login-card">
+    <h1 class="main-title">Exam Conducting Platform</h1>
+    <p class="subtitle">AI Powered Online Proctoring System</p>
+
+    <h2 class="title">Exam Portal</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <!-- Email -->
+      <input
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+      />
+
+      <!-- Password with Show / Hide -->
+      <div class="password-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <span class="toggle-password" (click)="togglePassword()">
+          {{ showPassword ? '🙈' : '👁️' }}
+        </span>
+      </div>
+
+      <!-- Submit -->
+      <button
+        type="submit"
+        class="login-btn"
+        [disabled]="loginForm.invalid || loading">
+        Login
+      </button>
+    </form>
+
+    <!-- Error -->
+    <p class="error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+
+    <!-- Register -->
+    <button class="register-btn" (click)="scrollToRegister()">
+      New Student? Register
+    </button>
+  </div>
+</div>
+
+<!-- ================= SCROLL SECTIONS ================= -->
+<div class="scroll-section" id="register">
+
+  <!-- About Platform -->
+  <div class="content-row left">
+    <div class="content-box">
+      <h2>🚀 Smart & Secure Exam Platform</h2>
+      <p>
+        Our AI-powered proctoring system ensures a fair and transparent 
+        examination experience through intelligent monitoring, live tracking, 
+        and advanced security protocols.
+      </p>
+
+      <div class="feature-tags">
+        <span>AI Monitoring</span>
+        <span>Real-time Alerts</span>
+        <span>Secure Access</span>
+      </div>
+    </div>
+
+    <div class="image-box">
+      <img src="assets/ai-proctoring.png" />
+    </div>
+  </div>
+
+  <!-- About Authors -->
+  <div class="content-row right">
+    <div class="content-box">
+      <h2>👨‍💻 Built by Passionate Engineers</h2>
+      <p>
+        Developed by dedicated engineers focused on building scalable,
+        intelligent, and highly secure digital examination ecosystems.
+      </p>
+
+      <div class="feature-tags">
+        <span>Scalable</span>
+        <span>Reliable</span>
+        <span>Future-ready</span>
+      </div>
+    </div>
+
+    <div class="image-box">
+      <img src="assets/authours.jpg" />
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="content-row left">
+    <div class="content-box">
+      <h2>✨ Platform Highlights</h2>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <h4>AI Face Detection</h4>
+          <p>Ensures candidate identity verification in real-time.</p>
+        </div>
+
+        <div class="feature-card">
+          <h4>Live Monitoring</h4>
+          <p>Continuous camera and activity tracking during exams.</p>
+        </div>
+
+        <div class="feature-card">
+          <h4>Tab Switch Detection</h4>
+          <p>Detects suspicious browser activity instantly.</p>
+        </div>
+
+        <div class="feature-card">
+          <h4>Role-based Access</h4>
+          <p>Secure access for Admins, Examiners & Students.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="image-box">
+      <img src="assets/features.webp" />
+    </div>
+  </div>
+
+</div>

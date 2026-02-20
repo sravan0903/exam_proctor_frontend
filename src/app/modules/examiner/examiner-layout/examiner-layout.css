@@ -1,0 +1,102 @@
+/* ROOT */
+.examiner-layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: #f8fafc;
+}
+
+/* HEADER */
+.header {
+  height: 60px;
+  background-color: #0f172a;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.logo .role {
+  font-size: 12px;
+  margin-left: 6px;
+  padding: 2px 6px;
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+/* PROFILE */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  text-align: right;
+}
+
+.info .name {
+  font-weight: 500;
+}
+
+.info .email {
+  color: #cbd5e1;
+}
+
+.logout-btn {
+  background-color: #ef4444;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
+
+/* BODY */
+.body {
+  flex: 1;
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 20px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px 0;
+  color: #334155;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar nav a.active {
+  color: #2563eb;
+  border-left: 3px solid #2563eb;
+  padding-left: 8px;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}

@@ -1,0 +1,22 @@
+<div class="admin-container">
+  <aside class="sidebar">
+    <h2 class="logo">ProctorAI</h2>
+
+    <nav>
+      <a routerLink="/admin/dashboard">Dashboard</a>
+      <a routerLink="/admin/users">Users</a>
+      <a routerLink="/admin/reports">Reports</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <span>Admin Panel</span>
+      <button (click)="logout()">Logout</button>
+    </header>
+
+    <section class="page-content">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,49 @@
+<div class="examiner-layout">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      ProctorAI
+      <span class="role">Examiner</span>
+    </div>
+
+    <div class="profile">
+      <div class="info">
+        <span class="name">{{ examiner.name }}</span>
+        <span class="email">{{ examiner.email }}</span>
+      </div>
+
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <nav>
+        <a routerLink="/examiner/dashboard" routerLinkActive="active">
+          Dashboard
+        </a>
+
+        <a routerLink="/examiner/exams" routerLinkActive="active">
+          Exams
+        </a>
+
+        <a routerLink="/examiner/create-exam" routerLinkActive="active">
+          Create Exam
+        </a>
+      </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>

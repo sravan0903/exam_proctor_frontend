@@ -1,0 +1,92 @@
+<div *ngIf="!loading; else loadingTpl" class="dashboard">
+
+  <h1 class="page-title">Examiner Dashboard</h1>
+
+  <!-- KPI SECTION -->
+  <div class="kpi-grid">
+
+    <div class="kpi-card blue">
+      <div>
+        <h4>Total Exams</h4>
+        <p>{{ stats.totalExams }}</p>
+      </div>
+    </div>
+
+    <div class="kpi-card green">
+      <div>
+        <h4>Active Exams</h4>
+        <p>{{ stats.activeExams }}</p>
+      </div>
+    </div>
+
+    <div class="kpi-card purple">
+      <div>
+        <h4>Total Questions</h4>
+        <p>{{ stats.totalQuestions }}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RECENT EXAMS -->
+  <div class="card">
+
+    <div class="card-header">
+      <h2>Recent Exams</h2>
+    </div>
+
+    <table *ngIf="recentExams.length > 0; else emptyTpl" class="exam-table">
+
+      <thead>
+        <tr>
+          <th>Exam</th>
+          <th>Branch</th>
+          <th>Duration</th>
+          <th>Total Marks</th>
+          <th>Deadline</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let exam of recentExams">
+
+          <td class="exam-name">
+            {{ exam.examName }}
+          </td>
+
+          <td>{{ exam.branch }}</td>
+
+          <td>{{ exam.duration }} mins</td>
+
+          <td>{{ exam.totalMarks }}</td>
+
+          <td>
+            {{ exam.deadline | date:'medium' }}
+          </td>
+
+          <td>
+            <span
+              class="status"
+              [class.expired]="isExpired(exam.deadline)"
+              [class.active]="!isExpired(exam.deadline)">
+              {{ isExpired(exam.deadline) ? 'Expired' : 'Upcoming' }}
+            </span>
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading">Loading dashboard...</div>
+</ng-template>
+
+<ng-template #emptyTpl>
+  <p class="empty">No exams created yet</p>
+</ng-template>

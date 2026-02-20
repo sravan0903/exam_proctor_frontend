@@ -1,0 +1,9 @@
+<h2>Online Exam Proctoring</h2>
+
+<video #video autoplay muted playsinline width="400"></video>
+
+<canvas #canvas hidden></canvas>
+
+<div *ngIf="violation" style="color:red; font-weight:bold;">
+  ⚠️ Violation Detected: {{ violation }}
+</div>
