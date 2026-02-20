@@ -16,6 +16,10 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 
+// ✅ Import tokens
+import { API_URL, AI_URL } from './core/services/app.tokens';
+import { environment } from '../environments/environment';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -23,20 +27,30 @@ export const appConfig: ApplicationConfig = {
     // ✅ Router
     provideRouter(routes),
 
-    // ✅ HttpClient + SSR Fetch + DI Interceptors
+    // ✅ HttpClient
     provideHttpClient(
       withFetch(),
       withInterceptorsFromDi()
     ),
 
-    // ✅ Register your interceptor
+    // ✅ Register interceptor
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
     },
 
-    // ✅ Hydration (SSR)
+    // ✅ Provide environment variables
+    {
+      provide: API_URL,
+      useValue: environment.apiUrl
+    },
+    {
+      provide: AI_URL,
+      useValue: environment.aiUrl
+    },
+
+    // ✅ SSR Hydration
     provideClientHydration(withEventReplay())
   ]
 };

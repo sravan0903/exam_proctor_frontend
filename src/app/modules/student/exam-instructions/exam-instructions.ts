@@ -5,14 +5,17 @@ import {
   ElementRef,
   Inject
 } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PLATFORM_ID } from '@angular/core';
-import { ExamSession } from '../../../core/services/exam-session';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+
+import { ExamSession } from '../../../core/services/exam-session';
 import { StudentApi } from '../../../core/services/student-api';
+import { API_URL, AI_URL } from '../../../core/services/app.tokens';
 
 @Component({
   selector: 'app-exam-instructions',
@@ -35,8 +38,8 @@ export class ExamInstructions implements OnInit {
   faceRegistered = false;
   registeringFace = false;
 
-  private readonly AI_REGISTER_URL = 'https://exam-proctor-ai-jbgb.onrender.com/register-face';
-  // private readonly AI_REGISTER_URL = 'http://localhost:8001/register-face';
+  // ✅ Declare but don’t initialize here
+  private aiRegisterUrl!: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,8 +48,13 @@ export class ExamInstructions implements OnInit {
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private studentApi: StudentApi,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(API_URL) private apiUrl: string,
+    @Inject(AI_URL) private aiUrl: string
+  ) {
+    // ✅ Now injection is available
+    this.aiRegisterUrl = `${this.aiUrl}/register-face`;
+  }
 
   ngOnInit(): void {
     this.examId = Number(this.route.snapshot.paramMap.get('id'));
@@ -65,7 +73,7 @@ export class ExamInstructions implements OnInit {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       this.video.nativeElement.srcObject = stream;
       this.cameraGranted = true;
-        this.cdr.detectChanges();
+      this.cdr.detectChanges();
     } catch {
       alert('Camera permission is mandatory to attend the exam');
     } finally {
@@ -77,6 +85,7 @@ export class ExamInstructions implements OnInit {
      FACE REGISTRATION
      ============================= */
   registerFace() {
+
     if (!this.cameraGranted) return;
 
     const email = this.examSession.getStudentEmail();
@@ -105,7 +114,7 @@ export class ExamInstructions implements OnInit {
       formData.append('studentEmail', email);
       formData.append('file', blob, 'face.jpg');
 
-      this.http.post(this.AI_REGISTER_URL, formData).subscribe({
+      this.http.post(this.aiRegisterUrl, formData).subscribe({
         next: () => {
           this.faceRegistered = true;
         },
@@ -116,41 +125,38 @@ export class ExamInstructions implements OnInit {
           this.registeringFace = false;
         }
       });
+
     }, 'image/jpeg');
   }
 
   /* =============================
-     START EXAM (ONLY PLACE)
+     START EXAM
      ============================= */
   startExam() {
 
-  if (!this.declarationAccepted) {
-    alert('Please accept the declaration');
-    return;
-  }
-
-  if (!this.cameraGranted) {
-    alert('Please allow camera permission');
-    return;
-  }
-
-  if (!this.faceRegistered) {
-    alert('Please register your face');
-    return;
-  }
-
-  // 🔥 Call backend ONLY here
-  this.studentApi.startExam(this.examId).subscribe({
-    next: () => {
-
-      this.examSession.setReady();
-
-      this.router.navigate(['/student/exam-player', this.examId]);
-    },
-    error: (err) => {
-      alert(err.error?.message || 'Unable to start exam');
+    if (!this.declarationAccepted) {
+      alert('Please accept the declaration');
+      return;
     }
-  });
-}
 
+    if (!this.cameraGranted) {
+      alert('Please allow camera permission');
+      return;
+    }
+
+    if (!this.faceRegistered) {
+      alert('Please register your face');
+      return;
+    }
+
+    this.studentApi.startExam(this.examId).subscribe({
+      next: () => {
+        this.examSession.setReady();
+        this.router.navigate(['/student/exam-player', this.examId]);
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Unable to start exam');
+      }
+    });
+  }
 }

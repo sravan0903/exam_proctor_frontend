@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,9 @@ export class StudentApi {
   /* ================================
      🌐 BASE URLs
      ================================ */
-  private SPRING_API = 'https://exam-proctor-backend-oeao.onrender.com';
-  private AI_API = 'http://localhost:8001';
+
+  private readonly SPRING_API = environment.apiUrl;
+  private readonly AI_API = environment.aiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -28,7 +30,7 @@ export class StudentApi {
   startExam(examId: number): Observable<any> {
     return this.http.post(
       `${this.SPRING_API}/student/exam/${examId}/start`,
-      null
+      {}
     );
   }
 
@@ -89,12 +91,14 @@ export class StudentApi {
      ================================ */
 
   sendFrameToAI(
-    aiUrl: string,
+    endpoint: string,
     formData: FormData
   ): Observable<any> {
-    // aiUrl example:
-    // http://localhost:8001/analyze-frame
-    return this.http.post(aiUrl, formData);
+    // endpoint example: '/analyze-frame'
+    return this.http.post(
+      `${this.AI_API}${endpoint}`,
+      formData
+    );
   }
 
   /* ================================

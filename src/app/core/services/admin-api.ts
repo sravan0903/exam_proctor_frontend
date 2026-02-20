@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminApi {
-   private API = 'https://exam-proctor-backend-oeao.onrender.com/admin';
+
+  // ✅ Base API URL from environment
+  private readonly API = `${environment.apiUrl}/admin`;
 
   constructor(private http: HttpClient) {}
 
@@ -33,22 +36,22 @@ export class AdminApi {
   }
 
   // 📥 EXPORTS
-  exportCsv() {
+  exportCsv(): Observable<Blob> {
     return this.http.get(`${this.API}/reports/export/csv`, {
       responseType: 'blob'
     });
   }
 
-  exportPdf() {
+  exportPdf(): Observable<Blob> {
     return this.http.get(`${this.API}/reports/export/pdf`, {
       responseType: 'blob'
     });
   }
 
   updateUserStatus(userId: number, active: boolean): Observable<any> {
-  return this.http.put(
-    `${this.API}/user/${userId}/status?active=${active}`,
-    {}
-  );
-}
+    return this.http.put(
+      `${this.API}/user/${userId}/status?active=${active}`,
+      {}
+    );
+  }
 }
